@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
 import locations from './data/locations.json';
 import MapDisplay from './components/MapDisplay';
@@ -9,7 +9,7 @@ class App extends Component {
     lat: 29.7844913,
     lon: -95.7880231,
     zoom: 13,
-    // all: locations
+    all: locations
   }
   render() {
     return (
