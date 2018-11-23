@@ -28,14 +28,14 @@ class MapDisplay extends Component {
         }
 
         return (
-            <Map>
+            <Map
                 role = "application"
                 aria-label = "map"
                 onReady = {this.mapReady}
                 google = {this.props.google}
                 style = {style}
                 initialCenter={center}
-                onClick={this.closeInfoWindow}
+                onClick={this.closeInfoWindow}>
                 
                 </Map>
 

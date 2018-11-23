@@ -1,11 +1,47 @@
 [
     {
-        "name": "Family Centered Educational Agency",
+        "name": "The Family Centered Educational Agency",
         "street": "16241 Wausau Ave",
         "city": "South Holland",
         "state": "IL",
         "zip": "60473",
         "url": "http://www.familycentered.org/",
         "pos": {"lat":41.5997062,"lng":-87.6117486}
+    },
+    {
+        "name": "3 Seeds Mentoring Group",
+        "street": "1916 174th St",
+        "city": "Hazel Crest",
+        "state": "IL",
+        "zip": "60429",
+        "url": "http://www.3seeds.org/",
+        "pos": {"lat":41.5742456,"lng":-87.6644932}
+    },
+    {
+        "name": "University of Chicago",
+        "street": "950 E 61st St Suite 053",
+        "city": "Chicago",
+        "state": "IL",
+        "zip": "60637",
+        "url": "https://osp-cp.uchicago.edu/",
+        "pos": {"lat":41.7844802,"lng":-87.6045118}
+    },
+    {
+        "name": "Moraine Valley Community College",
+        "street": "Building S, Room S219 9000 W. College Pkwy",
+        "city": "Palos Hills",
+        "state": "IL",
+        "zip": "60465",
+        "url": "https://www.morainevalley.edu/student-success/support-services/trio-upward-bound/",
+        "pos": {"lat":41.6922508,"lng":-87.8411296}
+    },
+    {
+        "name": "The Gloria J. Taylor Foundation",
+        "street": "900 Ridge Road Suite 3SE",
+        "city": "Homewood",
+        "state": "IL",
+        "zip": "60430",
+        "url": "https://gjtf.org/",
+        "pos": {"lat":41.5627567,"lng":-87.6398979}
     }
 ]
