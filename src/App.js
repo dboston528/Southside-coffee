@@ -105,7 +105,7 @@ class App extends Component {
         <button onClick={this.toggleDrawer} style={this.styles.menuButton}>
             <i className="fa fa-bars">=</i>
           </button>
-          <h1>Chicagoland Trio Programs</h1>
+          <h1>South Side Coffee Shops (Chicago)</h1>
         </div>
 
         <MapDisplay
