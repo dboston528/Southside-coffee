@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Map, InfoWindow, GoogleApiWrapper} from 'google-maps-react';
+import {Map, InfoWindow, GoogleApiWrapper, Marker} from 'google-maps-react';
 
 const MAP_KEY = "AIzaSyBlx6nrpogJFZyYMdMyfU7GTMGmHGYKJnQ";
 
@@ -10,63 +10,58 @@ class MapDisplay extends Component {
         markerProps: [],
         activeMarker: null,
         activeMarkerProps: null,
-        showingInfoWindow: false
+        showingInfoWindow: false,
+        firstDrop: true,
+        introAnim: this.props.google.maps.Animation.BOUNCE,
+        venueCount: 0
     };
 
     componentDidMount = () => {
 
     }
 
+    saveRealMarker = marker => {
+        
+        this
+            .props
+            .saveRealMarker(marker);
+    }
+
+    componentWillReceiveProps = (props) => {
+        
+        const venueCountChanged = this.state.venueCount !== props.venues.length
+            ? true
+            : false;
+        
+        const introAnim = !this.state.firstDrop
+            ? null
+            : this.props.google.maps.Animation.DROP;
+        
+        const showingInfoWindow = props.activeMarker && !venueCountChanged
+            ? true
+            : false;
+
+        this.setState({firstDrop: false, introAnim, activeMarker: props.activeMarker, showingInfoWindow, venueCount: props.venues.length},
+            () => {
+                if (this.state.activeMarker) this.state.activeMarker.marker.setAnimation(this.props.google.maps.Animation.BOUNCE);
+            });
+    }
+
     MapReady = (props, map) => {
         this.setState({map});
-        this.updateMarkers(this.props.locations)
     }
 
     closeInfoWindow = () => {
-        this.state.activeMarker && this
-            .state
-            .activeMarker
-            .setAnimation(null);
-        this.setState({showingInfoWindow: false, activeMarker: null, activeMarkerProps:null });
+        this.setState({showingInfoWindow: false});
     }
 
-    markerClick = (props, marker, e) => {
-        this.closeInfoWindow();
-
-        this.setState({showingInfoWindow: true, activeMarker: marker, activeMarkerProps: props});
+    markerClick = marker => {
+        this
+        .props
+        .clickMarker(marker.id);
     }
 
-    updateMarkers = (locations) => {
-        if (!locations)
-            return;
-
-        this.state.markers.forEach(marker => marker.setMap(null));
-
-        let markerProps = [];
-        let markers = locations.map((location, index) => {
-            let mProps = {
-                key: index,
-                index,
-                name: location.name,
-                position: location.pos,
-                url: location.url
-            };
-            markerProps.push(mProps);
-
-            let animation = this.props.google.maps.Animation.Drop;
-            let marker = new this.props.google.maps.Marker({
-                position: location.pos,
-                map: this.state.map,
-                animation
-            });
-
-            marker.addListener('click', () => {
-                this.markerClick(mProps, marker, null);
-            });
-            return marker;
-        })
-        this.setState({markers, markerProps});
-    }
+    
 
     render = () => {
         const style ={
@@ -78,7 +73,6 @@ class MapDisplay extends Component {
             lat: this.props.lat,
             lng: this.props.lon
         }
-        let amProps = this.state.activeMarkerProps;
 
         return (
             <Map
@@ -89,18 +83,36 @@ class MapDisplay extends Component {
                 style = {style}
                 initialCenter={center}
                 onClick={this.closeInfoWindow}>
+
+                {this.props.venues && this
+                    .props
+                    .venues
+                    .map((venue, index) => {
+                        return (<Marker
+                            id={venue.id}
+                            key={venue.id}
+                            index={index}
+                            title={venue.name}
+                            name={venue.name}
+                            address={venue.location.formattedAddress}
+                            onClick={this.markerClick}
+                            position={{
+                            lat: venue.location.lat,
+                            lng: venue.location.lng
+                        }}
+                            animation={this.state.introAnim}
+                            ref={this.saveRealMarker}/>)
+                    })}
+
                 <InfoWindow
-                    marker={this.state.activeMarker}
+                    marker={this.state.activeMarker && this.state.activeMarker.marker}
                     visible={this.state.showingInfoWindow}
                     onClose={this.closeInfoWindow}>
                         <div>
-                            <h3>{amProps && amProps.name}</h3>
-                            {amProps && amProps.url
-                                ? (
-                                    <a href={amProps.url}>See website</a>
-                                )
-                            : ""}
-                        </div>
+                        <h3>{this.state.activeMarker && this.state.activeMarker.props.name}</h3>
+                        <div>{this.state.activeMarker && this.state.activeMarker.props.address[0]}</div>
+                        <div>{this.state.activeMarker && this.state.activeMarker.props.address[1]}</div>
+                    </div>
                     </InfoWindow>
                 </Map>
 

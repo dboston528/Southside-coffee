@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^3.5.1",
     "google-map-react": "^1.1.1",
     "google-maps-react": "^2.0.2",
     "react": "^16.6.3",
